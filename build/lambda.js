@@ -1,0 +1,8 @@
+'use strict';
+const awsServerlessExpress = require('aws-serverless-express');
+const app = require('./app');
+const server = awsServerlessExpress.createServer(app);
+exports.handler = (event, context) => {
+    awsServerlessExpress.proxy(server, event, context);
+};
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibGFtYmRhLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vc3JjL2xhbWJkYS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxZQUFZLENBQUE7QUFDWixNQUFNLG9CQUFvQixHQUFHLE9BQU8sQ0FBQyx3QkFBd0IsQ0FBQyxDQUFBO0FBQzlELE1BQU0sR0FBRyxHQUFHLE9BQU8sQ0FBQyxPQUFPLENBQUMsQ0FBQTtBQUM1QixNQUFNLE1BQU0sR0FBRyxvQkFBb0IsQ0FBQyxZQUFZLENBQUMsR0FBRyxDQUFDLENBQUE7QUFFckQsT0FBTyxDQUFDLE9BQU8sR0FBRyxDQUFDLEtBQVUsRUFBRSxPQUFZLEVBQUUsRUFBRTtJQUMzQyxvQkFBb0IsQ0FBQyxLQUFLLENBQUMsTUFBTSxFQUFFLEtBQUssRUFBRSxPQUFPLENBQUMsQ0FBQztBQUN2RCxDQUFDLENBQUEifQ==
