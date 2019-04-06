@@ -1,5 +1,5 @@
-# bus-connector-redbus
-Bitnation Backend
+# BITNATION Desktop Backend
+NodeJS Backend Server for Bitnation Desktop
 
 ## Running the app locally
 
