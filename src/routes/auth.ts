@@ -67,6 +67,19 @@ router.post("/login", async (req, res) => {
     });
  });
 
+router.post("/reset-password", (req, res) => {
+  const { email, password } = req.body;
+  const saltRounds = 10;
+  bcrypt.hash(password, saltRounds, function (err: any, hash: any) {
+    const myquery = { email };
+    const newvalues = { $set: { password: hash } };
+    appLocal.db.collection("people").updateOne(myquery, newvalues, function (err: any, res: any) {
+      if (err) throw err;
+      console.log("1 document updated");
+    });
+  });
+ });
+
 router.post("/signup", (req, res) => {
   let { email, name, password, bitnationId } = req.body;
   let opts: any = {};
