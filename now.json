@@ -1,3 +1,16 @@
 {
-  "name": "bitnation-desktop-backend"
+  "version": 2,
+  "name": "bitnation-desktop-backend",
+  "builds": [
+    {
+      "src": "build/*.js",
+      "use": "@now/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api",
+      "dest": "build/app.local.js"
+    }
+  ]
 }

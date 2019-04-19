@@ -2,7 +2,7 @@ import express from "express";
 let bodyParser = require("body-parser");
 let uuid = require("uuid");
 const bcrypt = require('bcrypt');
-
+const mailer = require("nodemailer");
 let appLocal = require('../app.local');
 
 // const Client = require('../app.local');
@@ -38,16 +38,13 @@ router.get("/getUsers", (req, res) => {
 
 router.post("/login", async (req, res) => {
   let { email, password } = req.body;
-  let opts: any = {};
-  var query = { email };
-  let data: any = {};
   appLocal.db.collection("people").find({ email }).toArray(function (err: any, user: any) {
     if (user.length > 0) {
       bcrypt.compare(password, user[0].password, function (err: any, bcryptres: any) {
         if (bcryptres) {
           res.send({
             status: "success",
-            access_token: jwt.sign({ email: email }, user[0].password, {
+            access_token: jwt.sign({ email: email }, 'bitnation', {
               expiresIn: "10d"
             }),
           });
@@ -67,17 +64,46 @@ router.post("/login", async (req, res) => {
     });
  });
 
-router.post("/reset-password", (req, res) => {
-  const { email, password } = req.body;
+router.post("/reset-password", async (req, res) => {
+  const { email } = req.body;
   const saltRounds = 10;
-  bcrypt.hash(password, saltRounds, function (err: any, hash: any) {
-    const myquery = { email };
-    const newvalues = { $set: { password: hash } };
-    appLocal.db.collection("people").updateOne(myquery, newvalues, function (err: any, res: any) {
-      if (err) throw err;
-      console.log("1 document updated");
-    });
+  var smtpTransport = mailer.createTransport({
+    service: "Gmail",
+    auth: {
+      user: "prameet.c@gmail.com",
+      pass: "ribhu2895"
+    }
   });
+
+  var mail = {
+    from: "prameet.c@gmail.com",
+    to: email,
+    subject: "Bitnation Reset Password",
+    text: "Reset your password using this link",
+    html: "Reset your password using this link"
+  }
+
+  smtpTransport.sendMail(mail, function (error: any, response: any) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Message sent: " + response.message);
+      res.send({
+        status: true,
+        message: "Reset email sent successfully"
+      })
+    }
+    smtpTransport.close();
+  });
+ 
+  // bcrypt.hash(password, saltRounds, function (err: any, hash: any) {
+  //   const myquery = { email };
+  //   const newvalues = { $set: { password: hash } };
+  //   appLocal.db.collection("people").updateOne(myquery, newvalues, function (err: any, res: any) {
+  //     if (err) throw err;
+  //     console.log("1 document updated");
+  //   });
+  // });
  });
 
 router.post("/signup", (req, res) => {

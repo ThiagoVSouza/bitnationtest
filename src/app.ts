@@ -1,5 +1,6 @@
 import express from "express";
 let auth = require("./routes/auth");
+let nation = require("./routes/nation");
 
 let app = express();
 
@@ -11,5 +12,6 @@ app.all("/*", function(req, res, next) {
 });
 
 app.use("/auth", auth);
+app.use("/nation", nation);
 
 export = app;
