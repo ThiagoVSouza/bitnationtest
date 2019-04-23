@@ -13,5 +13,12 @@ app.all("/*", function(req, res, next) {
 
 app.use("/auth", auth);
 app.use("/nation", nation);
+app.use("/", function(req, res) {
+  res.statusCode = 200;
+
+  res.setHeader("Content-Type", "text/html");
+
+  res.end("<h1>Hello World</h1>");
+});
 
 export = app;
