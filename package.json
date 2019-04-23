@@ -25,11 +25,7 @@
         "typescript": "^3.3.3"
     },
     "scripts": {
-        "rimraf": "rimraf",
         "postinstall": "tsc",
-        "clearBuild": "npm run rimraf -- build",
-        "build": "npm run clearBuild",
-        "start": "node build/app.local.js",
-        "test": "npm run build && mocha --require ts-node/register tests/**/*.ts"
+        "start": "node build/app.local.js"
     }
 }
