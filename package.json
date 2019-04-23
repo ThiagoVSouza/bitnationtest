@@ -27,6 +27,7 @@
     "scripts": {
         "rimraf": "rimraf",
         "tsc": "tsc",
+        "postinstall": "npm run tsc",
         "clearBuild": "npm run rimraf -- build",
         "build": "npm run clearBuild && npm run tsc",
         "start": "npm run build && node build/app.local.js",
