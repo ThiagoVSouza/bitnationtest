@@ -1,4 +1,4 @@
-import express from "express";
+const express = require('express');
 let bodyParser = require("body-parser");
 let uuid = require("uuid");
 const bcrypt = require("bcrypt");
@@ -25,9 +25,9 @@ router.get("/getUsers", (req, res) => {
   appLocal.db
     .collection("people")
     .find({})
-    .toArray(function(err: any, users: any) {
+    .toArray(function(err, users) {
       if (err) throw err;
-      users.map(function(item: any) {
+      users.map(function(item) {
         delete item.password;
         return item;
       });
@@ -44,11 +44,11 @@ router.post("/login", async (req, res) => {
   appLocal.db
     .collection("people")
     .find({email})
-    .toArray(function(err: any, user: any) {
+    .toArray(function(err, user) {
       if (user.length > 0) {
         bcrypt.compare(password, user[0].password, function(
-          err: any,
-          bcryptres: any
+          err,
+          bcryptres
         ) {
           if (bcryptres) {
             res.send({
@@ -92,7 +92,7 @@ router.post("/reset-password", async (req, res) => {
     html: "Reset your password using this link"
   };
 
-  smtpTransport.sendMail(mail, function(error: any, response: any) {
+  smtpTransport.sendMail(mail, function(error, response) {
     if (error) {
       console.log(error);
     } else {
@@ -105,10 +105,10 @@ router.post("/reset-password", async (req, res) => {
     smtpTransport.close();
   });
 
-  // bcrypt.hash(password, saltRounds, function (err: any, hash: any) {
+  // bcrypt.hash(password, saltRounds, function (err, hash) {
   //   const myquery = { email };
   //   const newvalues = { $set: { password: hash } };
-  //   appLocal.db.collection("people").updateOne(myquery, newvalues, function (err: any, res: any) {
+  //   appLocal.db.collection("people").updateOne(myquery, newvalues, function (err, res) {
   //     if (err) throw err;
   //     console.log("1 document updated");
   //   });
@@ -117,14 +117,14 @@ router.post("/reset-password", async (req, res) => {
 
 router.post("/signup", (req, res) => {
   let {email, name, password, bitnationId} = req.body;
-  let opts: any = {};
-  // db.createCollection("people", function(err: any, res: any) {
+  let opts = {};
+  // db.createCollection("people", function(err, res) {
   //   if (err) throw err;
   //   console.log("Collection created!");
   // });
   const saltRounds = 10;
-  // appLocal.db.collection('people', function (err: any, collection: any) {
-  //   collection.remove({}, function (err: any, removed: any) {
+  // appLocal.db.collection('people', function (err, collection) {
+  //   collection.remove({}, function (err, removed) {
   //     if (removed) {
   //       console.log('collection removed');
   //     } else {
@@ -132,12 +132,12 @@ router.post("/signup", (req, res) => {
   //     }
   //   });
   // });
-  bcrypt.hash(password, saltRounds, function(err: any, hash: any) {
+  bcrypt.hash(password, saltRounds, function(err, hash) {
     const ecptPassword = hash;
     let myobj = {email, name, password: ecptPassword, bitnationId};
     appLocal.db
       .collection("people")
-      .insertOne(myobj, function(err: any, res: any) {
+      .insertOne(myobj, function(err, res) {
         if (err) throw err;
         console.log("1 document inserted");
         return res.status(200).json({
@@ -147,7 +147,7 @@ router.post("/signup", (req, res) => {
       });
   });
   // var query = { name: "Prameet" };
-  // db.collection("users").deleteOne(myobj, function (err: any, obj: any) {
+  // db.collection("users").deleteOne(myobj, function (err, obj) {
   //   if (err) throw err;
   //   console.log("1 document deleted");
   // });

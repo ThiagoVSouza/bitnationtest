@@ -1,4 +1,4 @@
-import express from "express";
+const express = require('express');
 let auth = require("./routes/auth");
 let nation = require("./routes/nation");
 
@@ -21,4 +21,4 @@ app.use("/", function(req, res) {
   res.end("<h1>Hello World</h1>");
 });
 
-export = app;
+module.exports = app;
