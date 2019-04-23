@@ -26,11 +26,10 @@
     },
     "scripts": {
         "rimraf": "rimraf",
-        "tsc": "tsc",
-        "postinstall": "npm run tsc",
+        "postinstall": "tsc",
         "clearBuild": "npm run rimraf -- build",
         "build": "npm run clearBuild",
-        "start": "npm run build && node build/app.local.js",
+        "start": "node build/app.local.js",
         "test": "npm run build && mocha --require ts-node/register tests/**/*.ts"
     }
 }
