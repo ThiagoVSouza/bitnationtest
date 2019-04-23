@@ -1,5 +1,5 @@
 import app from "./app";
-const port = 80;
+const port = 8080;
 const mongoClient = require("mongodb").MongoClient;
 
 const dbName = "bitnation";
